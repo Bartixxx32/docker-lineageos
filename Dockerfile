@@ -82,6 +82,11 @@ RUN echo "build ALL=NOPASSWD: ALL" > /etc/sudoers.d/build
 ADD startup.sh /home/build/startup.sh
 RUN chmod a+x /home/build/startup.sh
 
+#Repo sync
+WORKDIR /home/build/android
+RUN repo init --depth=1 -u git://github.com/lineageos/android.git -b lineage-16.0
+RUN repo sync -f --force-sync --no-clone-bundle --no-tags -c -j$(nproc --all) >> logi.txt
+
 # Fix ownership
 RUN chown -R build:build /home/build
 
@@ -90,6 +95,5 @@ VOLUME /srv/ccache
 
 USER build
 WORKDIR /home/build/android
-RUN sudo repo init -u git://github.com/lineageos/android.git -b lineage-15.1 ; sudo repo sync -c -j 16 >/dev/null
 
 CMD /home/build/startup.sh
