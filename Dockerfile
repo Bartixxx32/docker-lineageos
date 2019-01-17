@@ -85,8 +85,8 @@ RUN chmod a+x /home/build/startup.sh
 #Repo sync
 WORKDIR /home/build/android
 RUN repo init --depth=1 -u git://github.com/lineageos/android.git -b lineage-16.0
-RUN repo sync -f --force-sync --no-clone-bundle --no-tags -c -j$(nproc --all)
-
+#RUN repo sync -f --force-sync --no-clone-bundle --no-tags -c -j$(nproc --all)
+RUN df -h
 # Fix ownership
 RUN chown -R build:build /home/build
 
